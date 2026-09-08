@@ -87,6 +87,15 @@ int main(int argc, char **argv)
     {
         config_path = path;
     }
+#elif ROS2_FOUND
+    {
+        auto param_node = std::make_shared<rclcpp::Node>("vanjee_lidar_sdk");
+        std::string path = param_node->declare_parameter<std::string>("config_path", "");
+        if (!path.empty())
+        {
+            config_path = path;
+        }
+    }
 #endif
     YAML::Node config;
     try
