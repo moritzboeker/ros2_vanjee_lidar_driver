@@ -15,7 +15,7 @@ set(POINT_TYPE XYZIRT)
 #=======================================
 # Compile setup (ORIGINAL, CATKIN, COLCON)
 #=======================================
-set(COMPILE_METHOD CATKIN)
+set(COMPILE_METHOD COLCON)
 
 option(DISABLE_PCAP_PARSE         "Disable PCAP file parse" ON) 
 if(${DISABLE_PCAP_PARSE})
@@ -109,11 +109,7 @@ else ()
   message("buile type: Release")
 endif()
 
-if($ENV{ROS_DISTRO} STREQUAL "humble")  # the ros2 humble requires c++17
-add_definitions(-std=c++17)
-else()
-add_definitions(-std=c++14)
-endif()
+add_definitions(-std=c++17)  # ros2 humble and newer require c++17
 
 # add_compile_options(-Wall)
 
@@ -186,7 +182,7 @@ if(rclcpp_FOUND AND ${COMPILE_METHOD} STREQUAL "COLCON")
 
   add_definitions(-DROS2_FOUND)
   include_directories(${rclcpp_INCLUDE_DIRS})
-  set(CMAKE_CXX_STANDARD 14)
+  set(CMAKE_CXX_STANDARD 17)
 
   find_package(ament_cmake REQUIRED)
   find_package(sensor_msgs REQUIRED)
